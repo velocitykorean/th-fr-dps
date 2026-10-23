@@ -103,7 +103,7 @@ jobs:
       - name: Upload Video & Thumbnail Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: dionysian-abyss-video-package
+          name: freudian-depths-video-package
           path: |
             output/*.mp4
             output/*.jpg
