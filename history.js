@@ -24,6 +24,30 @@ const PODCAST_HISTORY = [
     "channel": "THE FREUDIAN DEPTHS",
     "handle": "@TheFreudianDepths",
     "youtube_url": "https://youtu.be/FCJcNcjK5dE"
+  },
+  {
+    "episode": 2,
+    "topic": "The Interpretation of Dreams: The Royal Road to the Unconscious",
+    "date": "2026-10-24T17:32:03.619958",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep2_20261024_170930.mp4",
+    "thumbnail_file": "thumb_ep2_20261024_170930.jpg",
+    "metadata_file": "metadata_ep2_20261024_170930.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 2,
+    "topic": "The Interpretation of Dreams: The Royal Road to the Unconscious",
+    "date": "2026-10-24T17:32:03.619958",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep2_20261024_170930.mp4",
+    "thumbnail_file": "thumb_ep2_20261024_170930.jpg",
+    "metadata_file": "metadata_ep2_20261024_170930.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
