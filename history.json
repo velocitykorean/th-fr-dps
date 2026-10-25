@@ -47,5 +47,29 @@
     "metadata_file": "metadata_ep2_20261024_170930.json",
     "channel": "THE FREUDIAN DEPTHS",
     "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 3,
+    "topic": "Defense Mechanisms: The Hidden Masks of the Human Ego",
+    "date": "2026-10-25T18:11:52.119166",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep3_20261025_175002.mp4",
+    "thumbnail_file": "thumb_ep3_20261025_175002.jpg",
+    "metadata_file": "metadata_ep3_20261025_175002.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 3,
+    "topic": "Defense Mechanisms: The Hidden Masks of the Human Ego",
+    "date": "2026-10-25T18:11:52.119166",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep3_20261025_175002.mp4",
+    "thumbnail_file": "thumb_ep3_20261025_175002.jpg",
+    "metadata_file": "metadata_ep3_20261025_175002.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
   }
 ]
