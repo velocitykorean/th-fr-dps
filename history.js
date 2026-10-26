@@ -72,6 +72,31 @@ const PODCAST_HISTORY = [
     "metadata_file": "metadata_ep3_20261025_175002.json",
     "channel": "THE FREUDIAN DEPTHS",
     "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 4,
+    "topic": "Civilization and Its Discontents: The High Price of Human Order",
+    "date": "2026-10-26T20:28:32.950582",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep4_20261026_201657.mp4",
+    "thumbnail_file": "thumb_ep4_20261026_201657.jpg",
+    "metadata_file": "metadata_ep4_20261026_201657.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 4,
+    "topic": "Civilization and Its Discontents: The High Price of Human Order",
+    "date": "2026-10-26T20:28:32.950582",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep4_20261026_201657.mp4",
+    "thumbnail_file": "thumb_ep4_20261026_201657.jpg",
+    "metadata_file": "metadata_ep4_20261026_201657.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths",
+    "youtube_url": "https://youtu.be/k1MomxyLVXA"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
