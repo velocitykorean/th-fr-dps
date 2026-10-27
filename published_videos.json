@@ -96,5 +96,29 @@
     "channel": "THE FREUDIAN DEPTHS",
     "handle": "@TheFreudianDepths",
     "youtube_url": "https://youtu.be/k1MomxyLVXA"
+  },
+  {
+    "episode": 5,
+    "topic": "Beyond the Pleasure Principle: Eros and Thanatos (The Death Drive)",
+    "date": "2026-10-27T20:01:18.326884",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep5_20261027_193847.mp4",
+    "thumbnail_file": "thumb_ep5_20261027_193847.jpg",
+    "metadata_file": "metadata_ep5_20261027_193847.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 5,
+    "topic": "Beyond the Pleasure Principle: Eros and Thanatos (The Death Drive)",
+    "date": "2026-10-27T20:01:18.326884",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep5_20261027_193847.mp4",
+    "thumbnail_file": "thumb_ep5_20261027_193847.jpg",
+    "metadata_file": "metadata_ep5_20261027_193847.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
   }
 ]
