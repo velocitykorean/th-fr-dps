@@ -120,5 +120,30 @@
     "metadata_file": "metadata_ep5_20261027_193847.json",
     "channel": "THE FREUDIAN DEPTHS",
     "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 6,
+    "topic": "The Psychology of Love, Attachment, and the Shadow of the Parent",
+    "date": "2026-10-28T19:36:57.025634",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep6_20261028_191535.mp4",
+    "thumbnail_file": "thumb_ep6_20261028_191535.jpg",
+    "metadata_file": "metadata_ep6_20261028_191535.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 6,
+    "topic": "The Psychology of Love, Attachment, and the Shadow of the Parent",
+    "date": "2026-10-28T19:36:57.025634",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep6_20261028_191535.mp4",
+    "thumbnail_file": "thumb_ep6_20261028_191535.jpg",
+    "metadata_file": "metadata_ep6_20261028_191535.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths",
+    "youtube_url": "https://youtu.be/sNqnJ06c-zw"
   }
 ]
