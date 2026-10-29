@@ -146,6 +146,30 @@ const PODCAST_HISTORY = [
     "channel": "THE FREUDIAN DEPTHS",
     "handle": "@TheFreudianDepths",
     "youtube_url": "https://youtu.be/sNqnJ06c-zw"
+  },
+  {
+    "episode": 7,
+    "topic": "The Oedipus Complex and the Buried Origins of Guilt",
+    "date": "2026-10-29T19:35:37.482325",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep7_20261029_192344.mp4",
+    "thumbnail_file": "thumb_ep7_20261029_192344.jpg",
+    "metadata_file": "metadata_ep7_20261029_192344.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 7,
+    "topic": "The Oedipus Complex and the Buried Origins of Guilt",
+    "date": "2026-10-29T19:35:37.482325",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep7_20261029_192344.mp4",
+    "thumbnail_file": "thumb_ep7_20261029_192344.jpg",
+    "metadata_file": "metadata_ep7_20261029_192344.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
