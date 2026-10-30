@@ -169,5 +169,30 @@
     "metadata_file": "metadata_ep7_20261029_192344.json",
     "channel": "THE FREUDIAN DEPTHS",
     "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 8,
+    "topic": "Sublimation: How Madness and Lust Become Art and Genius",
+    "date": "2026-10-30T19:18:40.705423",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep8_20261030_185714.mp4",
+    "thumbnail_file": "thumb_ep8_20261030_185714.jpg",
+    "metadata_file": "metadata_ep8_20261030_185714.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 8,
+    "topic": "Sublimation: How Madness and Lust Become Art and Genius",
+    "date": "2026-10-30T19:18:40.705423",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep8_20261030_185714.mp4",
+    "thumbnail_file": "thumb_ep8_20261030_185714.jpg",
+    "metadata_file": "metadata_ep8_20261030_185714.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths",
+    "youtube_url": "https://youtu.be/eteb3fRCk60"
   }
 ]
