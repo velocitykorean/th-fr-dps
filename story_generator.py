@@ -1,4 +1,4 @@
-import os, sys, json, time, requests, re
+import os, sys, json, time, requests, re, hashlib
 import config
 
 # Pre-crafted master curriculum for The Freudian Depths channel (Sigmund Freud psychoanalytic masterworks)
@@ -206,61 +206,194 @@ def load_history_topics() -> list:
                 pass
     return past
 
-def generate_dynamic_story_ai(topic: str = None, ep_num: int = 1, past_topics: list = None) -> dict:
-    """Uses Pollinations AI to dynamically generate a 100% original Freud episode."""
-    if past_topics is None:
-        past_topics = load_history_topics()
+# --- Robust AI dialogue generation (chunked, truncation-proof) ---
+TARGET_TURNS = 40
+TURNS_PER_ACT = (TARGET_TURNS + 4) // 5
+MAX_ACT_ATTEMPTS = 4
+MIN_TURNS = 30
+MIN_WORDS = 1500
+NARRATOR_NAME = "The Psychoanalyst"
+NARRATOR_SPEAKER = "male"
+NARRATOR_PERSONA = "Sigmund Freud's intellectual heir and the lead psychoanalyst for 'The Freudian Depths' channel. Deep, clinical, aristocratic psychoanalytic narration in the contemplative cadence of Sigmund Freud"
 
-    print(f"[StoryGenerator] Invoking AI for dynamic psychoanalytic episode #{ep_num}...")
+
+def normalize_turn_text(text):
+    """Normalize turn text for duplicate detection."""
+    return re.sub(r'[^a-z0-9\s]', '', (text or '').lower()).strip()
+
+
+def dialogue_fingerprint(dialogue):
+    """Stable hash of a dialogue's normalized texts (order-independent)."""
+    norm = sorted(normalize_turn_text(t.get('text', '')) for t in dialogue or [])
+    norm = [t for t in norm if t]
+    return hashlib.sha256('\n'.join(norm).encode('utf-8')).hexdigest()
+
+
+def load_history_hashes():
+    """Load dialogue fingerprints of previously published episodes."""
+    hashes = set()
+    for fname in ["published_videos.json", "history.json"]:
+        fpath = os.path.join(config.BASE_DIR, fname)
+        if os.path.exists(fpath):
+            try:
+                with open(fpath, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    if isinstance(data, list):
+                        for item in data:
+                            if isinstance(item, dict) and item.get("dialogue_hash"):
+                                hashes.add(item["dialogue_hash"])
+            except Exception:
+                pass
+    return hashes
+
+
+def repair_and_extract_turns(content, speaker="male", name=None):
+    """Extract valid dialogue turns from possibly-truncated AI JSON.
+
+    Salvages every complete turn object even when the response was cut off
+    mid-stream, so truncated calls still contribute usable turns.
+    """
+    name = name or NARRATOR_NAME
+    turns = []
+    if not content:
+        return turns
+    text = content.strip()
+    if "```json" in text:
+        text = text.split("```json", 1)[1].split("```", 1)[0].strip()
+    elif "```" in text:
+        text = text.split("```", 1)[1].split("```", 1)[0].strip()
+    candidates = []
+    try:
+        obj = json.loads(text)
+        if isinstance(obj, dict) and isinstance(obj.get("dialogue"), list):
+            candidates = obj["dialogue"]
+        elif isinstance(obj, list):
+            candidates = obj
+    except Exception:
+        obj = None
+    if not candidates:
+        for m in re.finditer(r'\{[^{}]*"text"\s*:\s*"(?:[^"\\]|\\.)*"[^{}]*\}', text):
+            try:
+                candidates.append(json.loads(m.group(0)))
+            except Exception:
+                continue
+    for c in candidates:
+        if not isinstance(c, dict):
+            continue
+        t = (c.get("text") or "").strip()
+        if not t:
+            continue
+        turns.append({
+            "speaker": c.get("speaker") or speaker,
+            "name": c.get("name") or name,
+            "text": t,
+        })
+    return turns
+
+
+def _pollinations_endpoint():
+    return getattr(config, "POLLINATIONS_ENDPOINT", None) or "https://text.pollinations.ai/"
+
+
+def _pollinations_model():
+    return getattr(config, "POLLINATIONS_MODEL", None) or "openai"
+
+
+def request_dialogue_chunk(act_title, act_summary, topic, ep_num, need, tail_texts, attempt, past_topics=None):
+    """One small AI call for a few turns of a single act. Raises on failure."""
+    endpoint = _pollinations_endpoint()
+    model = _pollinations_model()
     headers = {"Content-Type": "application/json"}
-    api_key = os.environ.get("POLLINATIONS_API_KEY")
+    api_key = os.environ.get("POLLINATIONS_API_KEY") or getattr(config, "POLLINATIONS_API_KEY", "")
     if api_key:
         headers["Authorization"] = f"Bearer {api_key}"
+    continuity = ""
+    if tail_texts:
+        continuity = ("Story so far (continue seamlessly, do not repeat these ideas):\n"
+                      + "\n".join(f"- {t[:220]}" for t in tail_texts[-2:]) + "\n")
+    avoid = ""
+    if past_topics:
+        avoid = f"Do not cover these already-published topics: {'; '.join(past_topics[:12])}.\n"
+    prompt = f"""You are {NARRATOR_PERSONA}.
+Write EXACTLY {need} consecutive dialogue turns for Episode #{ep_num} about "{topic}".
+Current act: {act_title} - {act_summary}.
+{continuity}{avoid}RULES:
+1. Single narrator named "{NARRATOR_NAME}" (speaker "male").
+2. Each turn 60-100 words of rich, substantive narration, fresh ideas only, no repetition within or across turns.
+3. Return ONLY a JSON array: [{{"speaker": "male", "name": "{NARRATOR_NAME}", "text": "..."}}]"""
+    payload = {
+        "model": model,
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": round(min(1.1, 0.85 + 0.05 * attempt), 2),
+        "max_tokens": 2500,
+    }
+    r = requests.post(endpoint, json=payload, headers=headers, timeout=90)
+    if r.status_code != 200:
+        raise RuntimeError(f"AI HTTP {r.status_code}: {(r.text or '')[:200]}")
+    data = r.json()
+    if isinstance(data, dict) and data.get("choices"):
+        content = data["choices"][0]["message"]["content"]
+        turns = repair_and_extract_turns(content)
+        if not turns:
+            raise RuntimeError("AI returned no usable dialogue turns")
+        return turns
+    if isinstance(data, dict) and isinstance(data.get("dialogue"), list):
+        turns = repair_and_extract_turns(json.dumps(data["dialogue"]))
+        if turns:
+            return turns
+        raise RuntimeError("AI returned no usable dialogue turns")
+    if isinstance(data, list):
+        turns = repair_and_extract_turns(json.dumps(data))
+        if turns:
+            return turns
+        raise RuntimeError("AI returned no usable dialogue turns")
+    raise RuntimeError("AI returned an unrecognized response shape")
 
-    avoid_clause = f"AVOID repeating these already covered topics: {', '.join(past_topics)}" if past_topics else ""
 
-    prompt = f"""You are Sigmund Freud's intellectual heir and the lead psychoanalyst for 'The Freudian Depths' channel.
-Generate a master 20-minute spoken philosophical video episode (Episode #{ep_num}).
-{avoid_clause}
-Topic override: {topic if topic else 'Choose a profound, unexamined theme from Freud (e.g. Id Ego Superego, The Interpretation of Dreams, Civilization and Its Discontents, Beyond the Pleasure Principle, Defense Mechanisms, Mourning and Melancholia)'}.
-
-Return ONLY valid JSON matching this exact structure:
-{{
-  "topic": "Comprehensive Title of the Freudian Topic",
-  "focus": "2-3 sentences explaining the core psychoanalytic inquiry.",
-  "thumbnail_title_1": "2-4 WORDS HEADLINE 1 (e.g. THE UNCONSCIOUS ID)",
-  "thumbnail_title_2": "2-4 WORDS HEADLINE 2 (e.g. EGO & GUILT)",
-  "thumbnail_hook": "Short curiosity question (e.g. The Secret War Inside Your Mind)",
-  "acts": [
-    ["Act 1: Title", "Summary"],
-    ["Act 2: Title", "Summary"],
-    ["Act 3: Title", "Summary"],
-    ["Act 4: Title", "Summary"],
-    ["Act 5: Title", "Summary"]
-  ],
-  "dialogue": [
-    {{"speaker": "male", "name": "The Psychoanalyst", "text": "Deep, clinical, aristocratic psychoanalytic narration in the contemplative cadence of Sigmund Freud..."}}
-  ]
-}}
-Ensure the dialogue contains at least 30 to 35 rich turns (~2,200 words total) divided evenly across the 5 acts.
-"""
-
-    try:
-        r = requests.post(
-            "https://text.pollinations.ai/",
-            json={"messages": [{"role": "user", "content": prompt}], "jsonMode": True},
-            headers=headers,
-            timeout=90
-        )
-        if r.status_code == 200:
-            data = r.json()
-            if isinstance(data, dict) and data.get("dialogue") and len(data["dialogue"]) >= 15:
-                print(f"[StoryGenerator] AI successfully generated {len(data['dialogue'])} turns for '{data.get('topic')}'.")
-                return data
-    except Exception as e:
-        print(f"[StoryGenerator] AI generation encountered issue ({e}). Proceeding to curriculum...")
-
-    return None
+def generate_dynamic_story_ai(topic=None, ep_num=1, past_topics=None, acts=None, target_turns=None):
+    """Builds original dialogue act-by-act with retries. Raises instead of
+    silently reusing a previous episode's script."""
+    if past_topics is None:
+        past_topics = load_history_topics()
+    if not acts:
+        acts = [("Full Episode", topic or "")]
+    if not target_turns:
+        target_turns = TARGET_TURNS
+    per_act = max(2, (target_turns + len(acts) - 1) // len(acts))
+    dialogue = []
+    seen = set()
+    for act_idx, act in enumerate(acts):
+        act_title = act[0] if isinstance(act, (list, tuple)) else str(act)
+        act_summary = act[1] if isinstance(act, (list, tuple)) and len(act) > 1 else ""
+        collected = 0
+        for attempt in range(MAX_ACT_ATTEMPTS):
+            try:
+                tail = [t["text"] for t in dialogue[-2:]]
+                chunk = request_dialogue_chunk(
+                    act_title, act_summary, topic, ep_num, per_act, tail,
+                    attempt + act_idx, past_topics)
+                fresh = 0
+                for t in chunk:
+                    norm = normalize_turn_text(t.get("text", ""))
+                    if norm and norm not in seen and len(t.get("text", "").split()) >= 5:
+                        seen.add(norm)
+                        dialogue.append(t)
+                        fresh += 1
+                        collected += 1
+                        if collected >= per_act:
+                            break
+                print(f"[StoryGenerator] Act {act_idx + 1}/{len(acts)} attempt {attempt + 1}: +{fresh} turns "
+                      f"(total {len(dialogue)}/{target_turns})")
+                if collected >= per_act:
+                    break
+            except Exception as e:
+                print(f"[StoryGenerator] Act {act_idx + 1}/{len(acts)} attempt {attempt + 1} issue: {e}")
+                time.sleep(2)
+        if collected < max(2, per_act - 2):
+            raise RuntimeError(
+                f"AI dialogue generation failed for act {act_idx + 1} ('{act_title}') after "
+                f"{MAX_ACT_ATTEMPTS} attempts. Aborting instead of publishing a repeat.")
+    return {"topic": topic, "focus": "", "dialogue": dialogue}
 
 def generate_full_podcast_story(target_minutes: float = 20.0, topic: str = None, ep_num: int = 1) -> dict:
     """Generates the full story dialogue and chapter structure for the episode."""
@@ -289,19 +422,27 @@ def generate_full_podcast_story(target_minutes: float = 20.0, topic: str = None,
         catalog_item = FREUD_CURRICULUM[curriculum_idx]
 
     # 2. Select or generate full dialogue
-    dialogue = None
     if catalog_item["id"] == "ep_1":
         dialogue = EPISODE_1_SCRIPT
     else:
-        ai_story = generate_dynamic_story_ai(topic=catalog_item["topic"], ep_num=ep_num, past_topics=past_topics)
-        if ai_story and ai_story.get("dialogue"):
-            catalog_item["thumbnail_title_1"] = ai_story.get("thumbnail_title_1", catalog_item["thumbnail_title_1"])
-            catalog_item["thumbnail_title_2"] = ai_story.get("thumbnail_title_2", catalog_item["thumbnail_title_2"])
-            catalog_item["thumbnail_hook"] = ai_story.get("thumbnail_hook", catalog_item["thumbnail_hook"])
-            dialogue = ai_story["dialogue"]
+        ai_story = generate_dynamic_story_ai(
+            topic=catalog_item["topic"],
+            ep_num=ep_num,
+            past_topics=past_topics,
+            acts=catalog_item["acts"],
+            target_turns=TARGET_TURNS,
+        )
+        dialogue = ai_story["dialogue"]
 
-    if not dialogue:
-        dialogue = EPISODE_1_SCRIPT
+    total_script_words = sum(len((t.get("text") or "").split()) for t in dialogue or [])
+    if not dialogue or len(dialogue) < MIN_TURNS or total_script_words < MIN_WORDS:
+        raise RuntimeError(
+            f"AI dialogue generation produced only {len(dialogue or [])} turns / {total_script_words} words "
+            f"(minimum {MIN_TURNS} turns / {MIN_WORDS} words). Aborting instead of publishing a repeat.")
+
+    dialogue_hash = dialogue_fingerprint(dialogue)
+    if dialogue_hash in load_history_hashes():
+        raise RuntimeError("Generated dialogue duplicates a previously published episode. Aborting instead of publishing a repeat.")
 
     # Map chapters to dialogue turns
     total_turns = len(dialogue)
@@ -330,7 +471,8 @@ def generate_full_podcast_story(target_minutes: float = 20.0, topic: str = None,
         "thumbnail_title_2": catalog_item["thumbnail_title_2"],
         "thumbnail_hook": catalog_item["thumbnail_hook"],
         "chapters": chapters,
-        "dialogue": dialogue
+        "dialogue": dialogue,
+        "dialogue_hash": dialogue_hash
     }
 
 def generate_metadata(topic: str, total_duration_sec: float, chapters: list, ep_num: int = 1, story: dict = None) -> dict:
