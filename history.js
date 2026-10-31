@@ -195,6 +195,30 @@ const PODCAST_HISTORY = [
     "channel": "THE FREUDIAN DEPTHS",
     "handle": "@TheFreudianDepths",
     "youtube_url": "https://youtu.be/eteb3fRCk60"
+  },
+  {
+    "episode": 9,
+    "topic": "The Psychopathology of Everyday Life: Slips of the Tongue and Hidden Truths",
+    "date": "2026-10-31T18:30:14.376309",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep9_20261031_180729.mp4",
+    "thumbnail_file": "thumb_ep9_20261031_180729.jpg",
+    "metadata_file": "metadata_ep9_20261031_180729.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 9,
+    "topic": "The Psychopathology of Everyday Life: Slips of the Tongue and Hidden Truths",
+    "date": "2026-10-31T18:30:14.376309",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep9_20261031_180729.mp4",
+    "thumbnail_file": "thumb_ep9_20261031_180729.jpg",
+    "metadata_file": "metadata_ep9_20261031_180729.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
