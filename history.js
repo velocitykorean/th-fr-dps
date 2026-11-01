@@ -219,6 +219,32 @@ const PODCAST_HISTORY = [
     "metadata_file": "metadata_ep9_20261031_180729.json",
     "channel": "THE FREUDIAN DEPTHS",
     "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 10,
+    "topic": "Mourning and Melancholia: The Secret Anatomy of Grief and Depression",
+    "dialogue_hash": "cfceedeb26d391df9773fa8ad974ec3c48ca4981d5213fb27a8b912fe0dcb77d",
+    "date": "2026-11-01T19:03:34.639162",
+    "duration_sec": 1004.18,
+    "duration_min": 16.74,
+    "video_file": "freudian_ep10_20261101_184352.mp4",
+    "thumbnail_file": "thumb_ep10_20261101_184352.jpg",
+    "metadata_file": "metadata_ep10_20261101_184352.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 10,
+    "topic": "Mourning and Melancholia: The Secret Anatomy of Grief and Depression",
+    "dialogue_hash": "cfceedeb26d391df9773fa8ad974ec3c48ca4981d5213fb27a8b912fe0dcb77d",
+    "date": "2026-11-01T19:03:34.639162",
+    "duration_sec": 1004.18,
+    "duration_min": 16.74,
+    "video_file": "freudian_ep10_20261101_184352.mp4",
+    "thumbnail_file": "thumb_ep10_20261101_184352.jpg",
+    "metadata_file": "metadata_ep10_20261101_184352.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
