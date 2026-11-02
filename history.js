@@ -245,6 +245,33 @@ const PODCAST_HISTORY = [
     "metadata_file": "metadata_ep10_20261101_184352.json",
     "channel": "THE FREUDIAN DEPTHS",
     "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 11,
+    "topic": "Totem and Taboo: The Primal Origins of Religion and Morality",
+    "dialogue_hash": "6284682068f4f164876f905f44689cbf3b3568ad5f1ecb52a9ee9615e9e7c7c7",
+    "date": "2026-11-02T22:50:34.368195",
+    "duration_sec": 914.44,
+    "duration_min": 15.24,
+    "video_file": "freudian_ep11_20261102_223356.mp4",
+    "thumbnail_file": "thumb_ep11_20261102_223356.jpg",
+    "metadata_file": "metadata_ep11_20261102_223356.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 11,
+    "topic": "Totem and Taboo: The Primal Origins of Religion and Morality",
+    "dialogue_hash": "6284682068f4f164876f905f44689cbf3b3568ad5f1ecb52a9ee9615e9e7c7c7",
+    "date": "2026-11-02T22:50:34.368195",
+    "duration_sec": 914.44,
+    "duration_min": 15.24,
+    "video_file": "freudian_ep11_20261102_223356.mp4",
+    "thumbnail_file": "thumb_ep11_20261102_223356.jpg",
+    "metadata_file": "metadata_ep11_20261102_223356.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths",
+    "youtube_url": "https://youtu.be/ZPFT9yyjFNg"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
