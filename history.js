@@ -272,6 +272,32 @@ const PODCAST_HISTORY = [
     "channel": "THE FREUDIAN DEPTHS",
     "handle": "@TheFreudianDepths",
     "youtube_url": "https://youtu.be/ZPFT9yyjFNg"
+  },
+  {
+    "episode": 12,
+    "topic": "The Future of an Illusion: Faith, Wish-Fulfillment, and the Search for Fatherly Protection",
+    "dialogue_hash": "cd133abac44cbe5d64c2b949c97202383b42843382508b2e1f9a0efca2e8c7ad",
+    "date": "2026-11-03T20:44:57.194952",
+    "duration_sec": 1049.54,
+    "duration_min": 17.49,
+    "video_file": "freudian_ep12_20261103_202348.mp4",
+    "thumbnail_file": "thumb_ep12_20261103_202348.jpg",
+    "metadata_file": "metadata_ep12_20261103_202348.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 12,
+    "topic": "The Future of an Illusion: Faith, Wish-Fulfillment, and the Search for Fatherly Protection",
+    "dialogue_hash": "cd133abac44cbe5d64c2b949c97202383b42843382508b2e1f9a0efca2e8c7ad",
+    "date": "2026-11-03T20:44:57.194952",
+    "duration_sec": 1049.54,
+    "duration_min": 17.49,
+    "video_file": "freudian_ep12_20261103_202348.mp4",
+    "thumbnail_file": "thumb_ep12_20261103_202348.jpg",
+    "metadata_file": "metadata_ep12_20261103_202348.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
