@@ -298,6 +298,33 @@ const PODCAST_HISTORY = [
     "metadata_file": "metadata_ep12_20261103_202348.json",
     "channel": "THE FREUDIAN DEPTHS",
     "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 13,
+    "topic": "The Architecture of the Unconscious: Id, Ego, and Superego",
+    "dialogue_hash": "845beb3556af647e98b7eb59f921f4c4b5e7d4c77438fce68544236ac292e10e",
+    "date": "2026-11-04T21:20:32.293627",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep13_20261104_205936.mp4",
+    "thumbnail_file": "thumb_ep13_20261104_205936.jpg",
+    "metadata_file": "metadata_ep13_20261104_205936.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths"
+  },
+  {
+    "episode": 13,
+    "topic": "The Architecture of the Unconscious: Id, Ego, and Superego",
+    "dialogue_hash": "845beb3556af647e98b7eb59f921f4c4b5e7d4c77438fce68544236ac292e10e",
+    "date": "2026-11-04T21:20:32.293627",
+    "duration_sec": 1090.93,
+    "duration_min": 18.18,
+    "video_file": "freudian_ep13_20261104_205936.mp4",
+    "thumbnail_file": "thumb_ep13_20261104_205936.jpg",
+    "metadata_file": "metadata_ep13_20261104_205936.json",
+    "channel": "THE FREUDIAN DEPTHS",
+    "handle": "@TheFreudianDepths",
+    "youtube_url": "https://youtu.be/jrsf5qHyNfY"
   }
 ];
 if (typeof module !== 'undefined' && module.exports) { module.exports = PODCAST_HISTORY; }
